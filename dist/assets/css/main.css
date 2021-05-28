@@ -208,6 +208,7 @@ h4 {
 .main {
   background-color: #f7e7e6;
   padding-top: 3rem;
+  overflow: hidden;
   /* Making it beautiful */
 
 }
@@ -837,6 +838,13 @@ h4 {
   background-color: #f7e7e6;
   padding: 9rem 0;
 }
+
+.feedback-slider {
+  position: relative;
+  overflow: hidden;
+  height: 460px;
+}
+
 .feedback-slider-item {
   padding-bottom: 5rem;
 }
