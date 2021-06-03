@@ -103,6 +103,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_showMoreStyles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./modules/showMoreStyles */ "./src/js/modules/showMoreStyles.js");
 /* harmony import */ var _modules_calc__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/calc */ "./src/js/modules/calc.js");
 /* harmony import */ var _modules_filter__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/filter */ "./src/js/modules/filter.js");
+/* harmony import */ var _modules_pictureSize__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/pictureSize */ "./src/js/modules/pictureSize.js");
+
 
 
 
@@ -122,6 +124,7 @@ window.addEventListener('DOMContentLoaded', () => {
   Object(_modules_showMoreStyles__WEBPACK_IMPORTED_MODULE_5__["default"])('.button-styles', '#styles .row');
   Object(_modules_calc__WEBPACK_IMPORTED_MODULE_6__["default"])('#size', '#material', '#options', '.promocode', '.calc-price');
   Object(_modules_filter__WEBPACK_IMPORTED_MODULE_7__["default"])();
+  Object(_modules_pictureSize__WEBPACK_IMPORTED_MODULE_8__["default"])('.sizes-block');
 });
 
 /***/ }),
@@ -528,6 +531,48 @@ const modals = () => {
 
 /***/ }),
 
+/***/ "./src/js/modules/pictureSize.js":
+/*!***************************************!*\
+  !*** ./src/js/modules/pictureSize.js ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const pictureSize = imgSelector => {
+  const blocks = document.querySelectorAll(imgSelector);
+
+  function showImg(block) {
+    const img = block.querySelector('img');
+    img.src = `${img.src.slice(0, -4)}-1.png`;
+    block.querySelectorAll('p:not(.sizes-hit)').forEach(p => {
+      p.style.display = 'none';
+    });
+  }
+
+  function hideImg(block) {
+    const img = block.querySelector('img');
+    img.src = `${img.src.slice(0, -6)}.png`;
+    block.querySelectorAll('p:not(.sizes-hit)').forEach(p => {
+      p.style.display = 'block';
+    });
+  }
+
+  blocks.forEach(el => {
+    el.addEventListener('mouseover', () => {
+      showImg(el);
+    });
+    el.addEventListener('mouseout', () => {
+      hideImg(el);
+    });
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (pictureSize);
+
+/***/ }),
+
 /***/ "./src/js/modules/showMoreStyles.js":
 /*!******************************************!*\
   !*** ./src/js/modules/showMoreStyles.js ***!
@@ -543,17 +588,17 @@ __webpack_require__.r(__webpack_exports__);
 const showMoreStyles = (trigger, wrapper) => {
   const btn = document.querySelector(trigger);
   /* Static
-    cards.forEach(card => {
+   cards.forEach(card => {
       card.classList.add('animated', 'fadeInUp');
   });
-    btn.addEventListener('click', () => {
+   btn.addEventListener('click', () => {
       cards.forEach(card => {
           card.classList.remove('hidden-lg', 'hidden-md', 'hidden-sm', 'hidden-xs');
           card.classList.add('col-sm-3', 'col-sm-offset-0', 'col-xs-10', 'col-xs-offset-1');
       });
       btn.remove();
   })
-      <div class="col-sm-3 col-sm-offset-0 col-xs-10 col-xs-offset-1">
+    <div class="col-sm-3 col-sm-offset-0 col-xs-10 col-xs-offset-1">
               <div class=styles-block>
                   <img src=assets/img/styles-4.jpg alt>
                   <h4>Ручкой</h4>
