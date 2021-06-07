@@ -104,6 +104,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modules_calc__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./modules/calc */ "./src/js/modules/calc.js");
 /* harmony import */ var _modules_filter__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./modules/filter */ "./src/js/modules/filter.js");
 /* harmony import */ var _modules_pictureSize__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./modules/pictureSize */ "./src/js/modules/pictureSize.js");
+/* harmony import */ var _modules_accordion__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./modules/accordion */ "./src/js/modules/accordion.js");
+/* harmony import */ var _modules_burger__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./modules/burger */ "./src/js/modules/burger.js");
+/* harmony import */ var _modules_scrolling__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./modules/scrolling */ "./src/js/modules/scrolling.js");
+/* harmony import */ var _modules_drop__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./modules/drop */ "./src/js/modules/drop.js");
+
+
+
+
 
 
 
@@ -125,7 +133,101 @@ window.addEventListener('DOMContentLoaded', () => {
   Object(_modules_calc__WEBPACK_IMPORTED_MODULE_6__["default"])('#size', '#material', '#options', '.promocode', '.calc-price');
   Object(_modules_filter__WEBPACK_IMPORTED_MODULE_7__["default"])();
   Object(_modules_pictureSize__WEBPACK_IMPORTED_MODULE_8__["default"])('.sizes-block');
+  Object(_modules_accordion__WEBPACK_IMPORTED_MODULE_9__["default"])('.accordion-heading', false);
+  Object(_modules_burger__WEBPACK_IMPORTED_MODULE_10__["default"])('.burger-menu', '.burger');
+  Object(_modules_scrolling__WEBPACK_IMPORTED_MODULE_11__["default"])('.pageup');
+  Object(_modules_drop__WEBPACK_IMPORTED_MODULE_12__["default"])();
 });
+
+/***/ }),
+
+/***/ "./src/js/modules/accordion.js":
+/*!*************************************!*\
+  !*** ./src/js/modules/accordion.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const accordion = (triggersSelector, isOnce) => {
+  const buttons = document.querySelectorAll(triggersSelector);
+  /* JS Style */
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', function () {
+      if (isOnce) {
+        buttons.forEach(btn => {
+          btn.classList.remove('active-style');
+          btn.nextElementSibling.classList.remove('active-content');
+          btn.nextElementSibling.style.maxHeight = `0`;
+        });
+        this.classList.add('active-style');
+        this.nextElementSibling.classList.add('active-content');
+      } else {
+        this.classList.toggle('active-style');
+        this.nextElementSibling.classList.toggle('active-content');
+      } // this.classList.toggle('active-style');
+      // this.nextElementSibling.classList.toggle('active-content');
+
+
+      if (this.classList.contains('active-style')) {
+        this.nextElementSibling.style.maxHeight = `${this.nextElementSibling.scrollHeight + 80}px`;
+      } else {
+        this.nextElementSibling.style.maxHeight = `0`;
+      }
+    });
+  });
+  /* CSS style */
+  // const blocks = document.querySelectorAll(itemsSelector);
+  // blocks.forEach(block => {
+  //     block.classList.add('animated', 'fadeInDown');
+  // });
+  //
+  // buttons.forEach(btn => {
+  //     btn.addEventListener('click', function () {
+  //         if (!this.classList.contains('active')) {
+  //             buttons.forEach(btn => {
+  //                 btn.classList.remove('active', 'active-style');
+  //             });
+  //             this.classList.add('active', 'active-style');
+  //         }
+  //     });
+  // });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (accordion);
+
+/***/ }),
+
+/***/ "./src/js/modules/burger.js":
+/*!**********************************!*\
+  !*** ./src/js/modules/burger.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const burger = (menuSelector, burgerSelector) => {
+  const menuElement = document.querySelector(menuSelector);
+  const burgerElement = document.querySelector(burgerSelector);
+  menuElement.style.display = 'none';
+  burgerElement.addEventListener('click', e => {
+    if (menuElement.style.display === 'none' && window.innerWidth < 993) {
+      menuElement.style.display = 'block';
+    } else {
+      menuElement.style.display = 'none';
+    }
+  });
+  window.addEventListener('resize', () => {
+    if (window.screen.availWidth > 992) {
+      menuElement.style.display = 'none';
+    }
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (burger);
 
 /***/ }),
 
@@ -189,6 +291,63 @@ const checkTextInputs = selector => {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (checkTextInputs);
+
+/***/ }),
+
+/***/ "./src/js/modules/drop.js":
+/*!********************************!*\
+  !*** ./src/js/modules/drop.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const drop = () => {
+  const fileInputs = document.querySelectorAll('[name="upload"]');
+  ['dragenter', 'dragleave', 'dragover', 'drop'].forEach(eventName => {
+    fileInputs.forEach(input => {
+      input.addEventListener(eventName, preventDefaults, false);
+    });
+  });
+
+  function preventDefaults(e) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  function highlight(item) {
+    item.closest('.file_upload').style.border = '5px solid yellow';
+    item.closest('.file_upload').style.background = 'rgba(0,0,0,.7)';
+  }
+
+  function unhighlight(item) {
+    item.closest('.file_upload').style.border = 'none';
+    item.closest('.file_upload').style.background = 'none';
+  }
+
+  ['dragenter', 'dragover'].forEach(eventName => {
+    fileInputs.forEach(input => {
+      input.addEventListener(eventName, () => highlight(input), false);
+    });
+  });
+  ['dragleave', 'drop'].forEach(eventName => {
+    fileInputs.forEach(input => {
+      input.addEventListener(eventName, () => unhighlight(input), false);
+    });
+  });
+  fileInputs.forEach(input => {
+    input.addEventListener('drop', e => {
+      input.files = e.dataTransfer.files;
+      let dots;
+      const arr = input.files[0].name.split('.');
+      arr[0].length > 6 ? dots = '...' : dots = '.';
+      input.previousElementSibling.textContent = arr[0].substring(0, 6) + dots + arr[1];
+    });
+  });
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (drop);
 
 /***/ }),
 
@@ -570,6 +729,106 @@ const pictureSize = imgSelector => {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (pictureSize);
+
+/***/ }),
+
+/***/ "./src/js/modules/scrolling.js":
+/*!*************************************!*\
+  !*** ./src/js/modules/scrolling.js ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+const scrolling = upSelector => {
+  const upElement = document.querySelector(upSelector);
+  window.addEventListener('scroll', () => {
+    if (document.documentElement.scrollTop > 1650) {
+      upElement.classList.add('animated', 'fadeIn');
+      upElement.classList.remove('fadeOut');
+    } else {
+      upElement.classList.remove('fadeIn');
+      upElement.classList.add('fadeOut');
+    }
+  }); // Scrolling with RAF
+
+  let links = document.querySelectorAll('[href^="#"]');
+  let speed = 0.3;
+  links.forEach(link => {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      let widthTop = document.documentElement.scrollTop;
+      let hash = this.hash;
+      let toBlock = document.querySelector(hash).getBoundingClientRect().top;
+      let start = null;
+      requestAnimationFrame(step);
+
+      function step(time) {
+        if (start === null) {
+          start = time;
+        }
+
+        let progress = time - start;
+        let r = toBlock < 0 ? Math.max(widthTop - progress / speed, widthTop + toBlock) : Math.min(widthTop + progress / speed, widthTop + toBlock);
+        document.documentElement.scrollTo(0, r);
+
+        if (r !== widthTop + toBlock) {
+          requestAnimationFrame(step);
+        } else {
+          location.hash = hash;
+        }
+      }
+    });
+  });
+  /* Pure Js Scrolling
+   const element = document.documentElement;
+  const body = document.body;
+   const calcScroll = () => {
+      upElement.addEventListener('click', function (e) {
+          let scrollTop = Math.round(body.scrollTop || element.scrollTop);
+           if (this.hash !== '') {
+              e.preventDefault();
+              let hashElement = document.querySelector(this.hash);
+              let hashElementTop = 0;
+               while (hashElement.offsetParent) {
+                  hashElementTop += hashElement.offsetTop;
+                  hashElement = hashElement.offsetParent;
+              }
+               hashElementTop = Math.round(hashElementTop);
+               smoothScroll(scrollTop, hashElementTop, this.hash);
+          }
+      });
+  }
+   const smoothScroll = (from, to, hash) => {
+      let timeInterval = 1;
+      let prevScrollTop;
+      let speed;
+       if (to > from) {
+          speed = 30;
+      } else {
+          speed = -30;
+      }
+       let move = setInterval(function () {
+          let scrollTop = Math.round(body.scrollTop || element.scrollTop);
+           if (
+              prevScrollTop === scrollTop ||
+              (to > from && scrollTop >= to) ||
+              (to < from && scrollTop <= to)
+          ) {
+              clearInterval(move);
+              history.replaceState(history.state, document.title, location.href.replace(/#.*$/g, '') + hash);
+          } else {
+              body.scrollTop += speed;
+              element.scrollTop += speed;
+              prevScrollTop = scrollTop;
+          }
+      }, timeInterval);
+  }
+   calcScroll(); */
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (scrolling);
 
 /***/ }),
 
